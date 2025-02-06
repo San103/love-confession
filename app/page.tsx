@@ -5,9 +5,21 @@ import heart from "@/public/heart.json";
 import { useState } from "react";
 
 const m = "Don't make me do this, Say YES or I'll use this!";
+
 export default function Home() {
   const [isPlaying, setIsPlaying] = useState(false);
+  const [cursorMove, setCusorMove] = useState(false);
   const [message, setMessage] = useState(m);
+
+  const [position, setPosition] = useState({ top: "50%", left: "50%" });
+
+  const moveButton = () => {
+    setCusorMove(true);
+    setMessage("This knife is sharp enough to cut a throat😠");
+    const newTop = Math.floor(Math.random() * 80) + "%"; // Random value between 0% and 80%
+    const newLeft = Math.floor(Math.random() * 80) + "%"; // Random value between 0% and 80%
+    setPosition({ top: newTop, left: newLeft });
+  };
   return (
     <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
       <h1
@@ -54,14 +66,14 @@ export default function Home() {
         <div className="flex gap-4 items-center flex-col sm:flex-row w-full justify-center">
           <a
             className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] bg-red-500 text-white text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
             onMouseEnter={() => {
-              setMessage("This knife is sharp enough to cut a throat😠");
+              moveButton();
             }}
-            onMouseLeave={() => {
-              setMessage(m);
+            style={{
+              ...( cursorMove && {position: "absolute",
+              top: position.top,
+              left: position.left,
+              transform: "translate(-50%, -50%)",})
             }}
           >
             <Image
@@ -73,7 +85,6 @@ export default function Home() {
             />
             NO
           </a>
-          <div className=""></div>
           <a
             className="bg-white rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-red-300 hover:text-white text-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
             href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
